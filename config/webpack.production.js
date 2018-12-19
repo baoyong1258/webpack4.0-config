@@ -1,5 +1,7 @@
 const { smart } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩css插件
 
 module.exports = smart(baseConfig, {
@@ -47,7 +49,7 @@ module.exports = smart(baseConfig, {
             },
         ]
     },
-    optimization: {
+    optimization: { // 依赖包提取到单独文件
         splitChunks: {
           cacheGroups: {
             vendor: {
@@ -60,6 +62,7 @@ module.exports = smart(baseConfig, {
         },
     },
     plugins: [
+        new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
         new OptimizeCssAssetsPlugin()
     ]
 })

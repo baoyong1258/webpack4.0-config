@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/index.js'),
@@ -47,7 +46,6 @@ module.exports = {
         extensions: ['.js', '.json']
     },
     plugins: [
-        new CleanWebpackPlugin('dist'),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
