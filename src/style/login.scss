@@ -1,0 +1,15 @@
+.box {
+    width: 300px;
+    p {
+        width: 200px;
+    }
+}
+.newImg2 {
+    position: relative;
+    z-index: 200;
+    width: 200px;
+    height: 200px;
+    background: url('../assets/images/logo.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
