@@ -1,5 +1,7 @@
 const { smart } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = smart(baseConfig, {
     module: {
@@ -18,6 +20,12 @@ module.exports = smart(baseConfig, {
             },
         ]
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.resolve(__dirname, '../src/index.html'),
+        }),
+    ],
     devServer: {
         port: 8090,
     }

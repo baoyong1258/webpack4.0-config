@@ -1,6 +1,7 @@
 const { smart } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩css插件
 
@@ -49,19 +50,40 @@ module.exports = smart(baseConfig, {
             },
         ]
     },
-    optimization: { // 依赖包提取到单独文件
+    // optimization:{
+    //     runtimeChunk: false,
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             common: {
+    //                 name: "common",
+    //                 chunks: "all",
+    //                 minChunks: 2
+    //             }
+    //         }
+    //     }
+    // },
+    optimization: {
         splitChunks: {
           cacheGroups: {
             vendor: {
-              test: /jquery/, // 直接使用 test 来做路径匹配
               chunks: "initial",
-              name: "vendor",
+              test: path.resolve(__dirname, "../node_modules"), // 路径在 node_modules 目录下的都作为公共部分
+              name: "vendor", // 使用 vendor 入口作为公共部分
               enforce: true,
             },
           },
         },
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html', // 配置输出文件名和路径
+            template: path.resolve(__dirname, '../src/index.html'), // 配置文件模板
+            minify: { // 压缩 HTML 的配置
+              minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
+              minifyJS: true, // 压缩 HTML 中出现的 JS 代码
+              removeComments: true,
+            },
+          }),
         new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
         new OptimizeCssAssetsPlugin()
     ]

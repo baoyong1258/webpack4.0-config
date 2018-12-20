@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
@@ -15,7 +14,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: [path.resolve(__dirname, '../src')],
-                exclude: /node_modules/,
                 use: 'babel-loader'
             },
             {
@@ -46,11 +44,7 @@ module.exports = {
         extensions: ['.js', '.json']
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: path.resolve(__dirname, '../src/index.html'),
-        }),
-        new ExtractTextPlugin('static/css/style.css'),  
+        new ExtractTextPlugin('static/css/[name].[chunkhash].css'),  
         new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, '../static'),
