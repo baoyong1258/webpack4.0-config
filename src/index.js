@@ -27,7 +27,9 @@ btn_import.addEventListener('click', () => {
 })
 
 console.log(jquery);
+console.log('hasName = ' + utils.hasName());
 utils.getName();
+console.log('test...');
 // init();	
 function init(){
     //设置鼠标右键

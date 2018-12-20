@@ -3,7 +3,9 @@ const baseConfig = require('./webpack.base.js');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩css插件
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+;//压缩css插件
 
 module.exports = smart(baseConfig, {
     output: {
@@ -14,6 +16,33 @@ module.exports = smart(baseConfig, {
     },
     module: {
         rules: [
+            {
+                test: /\.css$/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                      publicPath: '../../'
+                    },
+                  },
+                  'css-loader',
+                  'postcss-loader'
+                ],
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                      publicPath: '../../'
+                    },
+                  },
+                  'css-loader',
+                  'postcss-loader',
+                  'sass-loader'
+                ],
+            },
             {
                 test: /\.(jpe?g|png|gif)$/,
                 use: [
@@ -50,18 +79,6 @@ module.exports = smart(baseConfig, {
             },
         ]
     },
-    // optimization:{
-    //     runtimeChunk: false,
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             common: {
-    //                 name: "common",
-    //                 chunks: "all",
-    //                 minChunks: 2
-    //             }
-    //         }
-    //     }
-    // },
     optimization: {
         splitChunks: {
           cacheGroups: {
@@ -75,6 +92,12 @@ module.exports = smart(baseConfig, {
         },
     },
     plugins: [
+        new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
+        new MiniCssExtractPlugin({
+            // 类似 webpackOptions.output里面的配置 可以忽略
+            filename: 'static/css/[name].[contenthash].css',
+            chunkFilename: '[id].[contenthash].css',
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html', // 配置输出文件名和路径
             template: path.resolve(__dirname, '../src/index.html'), // 配置文件模板
@@ -84,7 +107,6 @@ module.exports = smart(baseConfig, {
               removeComments: true,
             },
           }),
-        new CleanWebpackPlugin(path.resolve(__dirname, '../dist')),
         new OptimizeCssAssetsPlugin()
     ]
 })

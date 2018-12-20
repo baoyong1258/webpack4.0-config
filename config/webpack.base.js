@@ -1,5 +1,4 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
@@ -17,20 +16,6 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: ['css-loader','postcss-loader'],
-                    publicPath: '../../'       
-                })
-            },
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: ['css-loader', 'postcss-loader', 'sass-loader'],
-                    publicPath: '../../'       
-                })
-            },
-            {
                 test: /\.(eot|ttf|woff|svg)$/,
                 use: 'file-loader'
             },
@@ -44,7 +29,6 @@ module.exports = {
         extensions: ['.js', '.json']
     },
     plugins: [
-        new ExtractTextPlugin('static/css/[name].[chunkhash].css'),  
         new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, '../static'),

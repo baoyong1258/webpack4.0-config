@@ -4,5 +4,8 @@ export default {
     },
     setName() {
         console.log('setName');
+    },
+    hasName() {
+        return true;
     }
 }
